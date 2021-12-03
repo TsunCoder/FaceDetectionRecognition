@@ -144,7 +144,7 @@ class Window1:
         self.frame = tk.Frame(self.master, bg='white')
         self.frame.place(relx=0.11, rely=0.17, relwidth=0.78, relheight=0.80)
 
-        self.lblHeader = tk.Label(self.master, text='Hệ thống điểm danh sinh viên', fg='black',
+        self.lblHeader = tk.Label(self.master, text='Hệ thống điểm danh sinh viên', fg='#4E9F3D',
                                   font=('calibri', 22, ' bold '), width=32, height=1)
         self.lblHeader.place(x=130, y=40)
         self.imageLogo = tk.PhotoImage(file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/logo.png')
@@ -155,26 +155,26 @@ class Window1:
                                                 + self.year + "   |       ",
                               font=('calibri', 15, ' bold '))
         self.datef.place(x=200, y=80)
-        self.clock = tk.Label(self.master, font=('calibri', 15, ' bold '))
+        self.clock = tk.Label(self.master, fg='#4E9F3D', font=('calibri', 15, ' bold '))
         self.clock.place(x=400, y=80)
         self.tick()
 
         self.head1 = tk.Label(self.frame, text='Đối với sinh viên đã đăng ký',
-                              fg='white', bg='#33CC99', font=('calibri', 17, ' bold '), width='48')
+                              fg='white', bg='#1E5128', font=('calibri', 17, ' bold '), width='48')
         self.head1.place(x=0, y=0)
 
         self.label1 = tk.Label(self.frame, text='Điểm danh',
-                               fg='#6699FF', bg='white', font=('calibri', 17, ' bold '), width='45')
+                               fg='#4E9F3D', bg='white', font=('calibri', 17, ' bold '), width='45')
         self.label1.place(x=15, y=45)
 
         self.lblLine = tk.Label(self.frame,
                                 text="--------------------------------------------------------------------------------",
-                                fg="#00CCFF", bg="white")
+                                fg="#1E5128", bg="white")
         self.lblLine.place(x=80, y=180)
 
         self.imageAttendance = tk.PhotoImage(file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/face.png')
         self.buttonAttendance = TkinterCustomButton(master=self.frame, command=self.TrackImage, bg_color='white',
-                                                    fg_color='white', width=100,
+                                                    fg_color='#D8E9A8', width=100,
                                                     height=80, corner_radius=8, image=self.imageAttendance)
         self.buttonAttendance.place(x=239, y=90)
 
@@ -192,20 +192,20 @@ class Window1:
         self.tvStudents.heading('date', text='Ngày')
         self.tvStudents.heading('time', text='Giờ')
         self.lblNoRegister = tk.Label()
-        self.buttonGetInformation = TkinterCustomButton(master=self.frame, text='Đăng ký', bg_color='white', width=130,
+        self.buttonGetInformation = TkinterCustomButton(master=self.frame, text='Đăng ký', fg_color='#4E9F3D', bg_color='white', width=130,
                                                         height=40, text_font='calibri', command=self.loadWindow2,
                                                         corner_radius=8)
         self.buttonGetInformation.place(x=380, y=485)
 
         self.head2 = tk.Label(self.frame, text='Đối với sinh viên chưa đăng ký',
-                              fg='black', bg='white', font=('calibri', 17, ' bold '))
+                              fg='#4E9F3D', bg='white', font=('calibri', 17, ' bold '))
         self.head2.place(x=40, y=490)
 
     def loadWindow2(self):
         self.newWindow = tk.Toplevel(self.master)
         self.newWindow.title('Đăng ký')
         self.newWindow.resizable(False, False)
-        self.newWindow.geometry('720x720+380+50')
+        self.newWindow.geometry('720x620+380+50')
         self.app = Window2(self.newWindow)
 
 
@@ -322,55 +322,55 @@ class Window2:
         self.frame = tk.Frame(self.master, bg='white')
         self.frame.place(relx=0.11, rely=0.05, relwidth=0.78, relheight=0.9)
         self.head1 = tk.Label(self.frame, text='Thông tin sinh viên',
-                              fg='white', bg='#33CC99', font=('calibri', 17, ' bold '), width='48')
+                              fg='white', bg='#1E5128', font=('calibri', 17, ' bold '), width='48')
         self.head1.place(x=0, y=0)
 
         # Nhập ID
-        self.lblID = tk.Label(self.frame, text='Mã sinh viên:', font=('calibri', 15, ' bold '), bg='white')
+        self.lblID = tk.Label(self.frame, text='Mã sinh viên:', font=('calibri', 15, ' bold '), bg='white',fg='#4E9F3D')
         self.lblID.place(x=15, y=60)
-        self.txtID = tk.Entry(self.frame, highlightthickness="2", highlightbackground="#00CCFF", width=23, fg="black",
-                              font=('times', 15, ' bold '))
+        self.txtID = tk.Entry(self.frame, highlightthickness="2", highlightbackground="#D8E9A8", width=23, fg="black",
+                              font=('calibri', 15, ' bold '))
         self.txtID.place(x=150, y=60)
         self.clearID = TkinterCustomButton(master=self.frame, text='Clear', corner_radius=10,
-                                           fg_color="#00CCFF", text_font=('arial', 10, 'bold'), width=100, height=30)
+                                           fg_color="#4E9F3D", text_font=('calibri', 10, 'bold'), width=100, height=30)
         self.clearID.place(x=420, y=60)
         # Nhập họ tên
-        self.lblName = tk.Label(self.frame, text='Họ và tên:', font=('calibri', 15, ' bold '), bg='white')
+        self.lblName = tk.Label(self.frame, text='Họ và tên:', font=('calibri', 15, ' bold '), bg='white', fg='#4E9F3D')
         self.lblName.place(x=15, y=120)
-        self.txtName = tk.Entry(self.frame, highlightthickness="2", highlightbackground="#00CCFF", width=23, fg="black",
-                                font=('times', 15, ' bold '))
+        self.txtName = tk.Entry(self.frame, highlightthickness="2", highlightbackground="#D8E9A8", width=23, fg="black",
+                                font=('calibri', 15, ' bold '))
         self.txtName.place(x=150, y=120)
         self.clearName = TkinterCustomButton(master=self.frame, text='Clear', corner_radius=10,
-                                             fg_color="#00CCFF", text_font=('arial', 10, 'bold'), width=100, height=30)
+                                             fg_color="#4E9F3D", text_font=('calibri', 10, 'bold'), width=100, height=30)
         self.clearName.place(x=420, y=120)
         self.lblLine = tk.Label(self.frame, bg='white',
                                 text="---------------------------------------------------------------------------",
-                                fg="#00CCFF")
+                                fg="#1E5128")
         self.lblLine.place(x=100, y=180)
         # Step1
-        self.lblStep1 = tk.Label(self.frame, text="Bước 1: Lấy dữ liệu khuôn mặt", fg="#00CCFF", bg='white',
+        self.lblStep1 = tk.Label(self.frame, text="Bước 1: Lấy dữ liệu khuôn mặt", fg="#4E9F3D", bg='white',
                                  font=('calibri', 15, ' bold '))
         self.lblStep1.place(x=150, y=220)
         self.imageTakeImage = tk.PhotoImage(
             file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/photo-capture_1.png')
         self.takeImage = TkinterCustomButton(master=self.frame, command=self.TakeImage, bg_color="white",
-                                             fg_color="white",
+                                             fg_color="#D8E9A8",
                                              width=200, height=80, corner_radius=8,
                                              text_font=('calibri', 15, ' bold '), image=self.imageTakeImage)
         self.takeImage.place(x=185, y=260)
         # Step2
-        self.lblStep2 = tk.Label(self.frame, text="Bước 2: Lưu thông tin", fg="#00CCFF", bg='white',
+        self.lblStep2 = tk.Label(self.frame, text="Bước 2: Lưu thông tin", fg="#4E9F3D", bg='white',
                                  font=('calibri', 15, ' bold '))
         self.lblStep2.place(x=190, y=380)
         self.imageSave = tk.PhotoImage(
             file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/save_1.png')
-        self.saveProfile = TkinterCustomButton(master=self.frame, command=self.psw, bg_color="white", fg_color="white",
+        self.saveProfile = TkinterCustomButton(master=self.frame, command=self.psw, bg_color="white", fg_color="#D8E9A8",
                                                width=200, height=80, corner_radius=8,
                                                text_font=('calibri', 15, ' bold '), image=self.imageSave)
         self.saveProfile.place(x=185, y=430)
         self.lblLine1 = tk.Label(self.frame, bg='white',
                                  text="---------------------------------------------------------------------------",
-                                 fg="#00CCFF")
+                                 fg="#4E9F3D")
         self.lblLine1.place(x=100, y=520)
 
 
