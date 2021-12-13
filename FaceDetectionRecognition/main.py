@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter_custom_button import TkinterCustomButton
 from tkinter import messagebox as mess
+from tkinter import filedialog
 import datetime
 import time
 import cv2
@@ -15,6 +16,22 @@ import pandas as pd
 
 # Attendance window
 class Window1:
+    # Xuất excel
+    def Export_Excel_Data(self):
+        if len(self.tvStudents.get_children()) < 1:
+            mess.showinfo("Lỗi", "Không có dữ liệu để xuất")
+            return False
+
+        self.file = filedialog.asksaveasfilename(initialdir=os.getcwd(), title="Save CSV",
+                                                 filetype=(("CSV File", "*.csv"), ("AllFile", "*.*")))
+        with open(self.file, mode='w', newline='') as myFile:
+            self.export_writer = csv.writer(myFile, delimiter='\t')
+            for i in self.tvStudents.get_children():
+                self.row = self.tvStudents.item(i)['values']
+                self.export_writer.writerow(self.row)
+            mess.showinfo("Thông báo", "Lưu thành công")
+
+    # Kiểm tra thư mục
     def assure_path_exists(self, path):
         self.dir = os.path.dirname(path)
         if not os.path.exists(self.dir):
@@ -192,7 +209,8 @@ class Window1:
         self.tvStudents.heading('date', text='Ngày')
         self.tvStudents.heading('time', text='Giờ')
         self.lblNoRegister = tk.Label()
-        self.buttonGetInformation = TkinterCustomButton(master=self.frame, text='Đăng ký', fg_color='#4E9F3D', bg_color='white', width=130,
+        self.buttonGetInformation = TkinterCustomButton(master=self.frame, text='Đăng ký', fg_color='#4E9F3D',
+                                                        bg_color='white', width=130,
                                                         height=40, text_font='calibri', command=self.loadWindow2,
                                                         corner_radius=8)
         self.buttonGetInformation.place(x=380, y=485)
@@ -200,6 +218,13 @@ class Window1:
         self.head2 = tk.Label(self.frame, text='Đối với sinh viên chưa đăng ký',
                               fg='#4E9F3D', bg='white', font=('calibri', 17, ' bold '))
         self.head2.place(x=40, y=490)
+
+        self.menuBar = tk.Menu(self.master, relief='ridge')
+        self.master.config(menu=self.menuBar)
+
+        self.fileMenu = tk.Menu(self.menuBar, tearoff=0)
+        self.fileMenu.add_command(label='Xuất excel', command=self.Export_Excel_Data)
+        self.menuBar.add_cascade(label='Help', menu=self.fileMenu, font=('calibri', 16, 'bold'))
 
     def loadWindow2(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -210,6 +235,13 @@ class Window1:
 
 
 class Window2:
+    # Xóa text
+    def clearID(self):
+        self.txtID.delete(0, 'end')
+
+    def clearName(self):
+        self.txtName.delete(0, 'end')
+
     # Kiểm tra đường dẫn thư mục
     def assure_path_exists(self, path):
         self.dir = os.path.dirname(path)
@@ -326,12 +358,13 @@ class Window2:
         self.head1.place(x=0, y=0)
 
         # Nhập ID
-        self.lblID = tk.Label(self.frame, text='Mã sinh viên:', font=('calibri', 15, ' bold '), bg='white',fg='#4E9F3D')
+        self.lblID = tk.Label(self.frame, text='Mã sinh viên:', font=('calibri', 15, ' bold '), bg='white',
+                              fg='#4E9F3D')
         self.lblID.place(x=15, y=60)
         self.txtID = tk.Entry(self.frame, highlightthickness="2", highlightbackground="#D8E9A8", width=23, fg="black",
                               font=('calibri', 15, ' bold '))
         self.txtID.place(x=150, y=60)
-        self.clearID = TkinterCustomButton(master=self.frame, text='Clear', corner_radius=10,
+        self.clearID = TkinterCustomButton(master=self.frame, text='Clear', command=self.clearID, corner_radius=10,
                                            fg_color="#4E9F3D", text_font=('calibri', 10, 'bold'), width=100, height=30)
         self.clearID.place(x=420, y=60)
         # Nhập họ tên
@@ -340,8 +373,9 @@ class Window2:
         self.txtName = tk.Entry(self.frame, highlightthickness="2", highlightbackground="#D8E9A8", width=23, fg="black",
                                 font=('calibri', 15, ' bold '))
         self.txtName.place(x=150, y=120)
-        self.clearName = TkinterCustomButton(master=self.frame, text='Clear', corner_radius=10,
-                                             fg_color="#4E9F3D", text_font=('calibri', 10, 'bold'), width=100, height=30)
+        self.clearName = TkinterCustomButton(master=self.frame, text='Clear', command=self.clearName, corner_radius=10,
+                                             fg_color="#4E9F3D", text_font=('calibri', 10, 'bold'), width=100,
+                                             height=30)
         self.clearName.place(x=420, y=120)
         self.lblLine = tk.Label(self.frame, bg='white',
                                 text="---------------------------------------------------------------------------",
@@ -364,7 +398,8 @@ class Window2:
         self.lblStep2.place(x=190, y=380)
         self.imageSave = tk.PhotoImage(
             file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/save_1.png')
-        self.saveProfile = TkinterCustomButton(master=self.frame, command=self.psw, bg_color="white", fg_color="#D8E9A8",
+        self.saveProfile = TkinterCustomButton(master=self.frame, command=self.psw, bg_color="white",
+                                               fg_color="#D8E9A8",
                                                width=200, height=80, corner_radius=8,
                                                text_font=('calibri', 15, ' bold '), image=self.imageSave)
         self.saveProfile.place(x=185, y=430)
