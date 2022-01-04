@@ -34,7 +34,7 @@ class Window1:
     # Kiểm tra thư mục
     def assure_path_exists(self, path):
         self.dir = os.path.dirname(path)
-        if not os.path.exists(self.dir):
+        if not os.path.exists(self.dir):  # Nếu không tồn tại, tự động tạo thư mục
             os.makedirs(self.dir)
 
     # Kiểm tra file haarcascade
@@ -49,40 +49,52 @@ class Window1:
     # Attendance
     def TrackImage(self):
         global attendance
+        # Kiểm tra tồn tại file Haar
         self.check_haarcascadefile()
+        # Kiểm tra tồn tại thư mục Attendance
         self.assure_path_exists("Attendance/")
+        # Kiểm tra tồn tại thư mục StudentDetails
         self.assure_path_exists("StudentDetails/")
         for k in self.tvStudents.get_children():
             self.tvStudents.delete(k)
+        # Khởi tạo model LBPH
         recognizer = cv2.face.LBPHFaceRecognizer_create()
-        exists3 = os.path.isfile("TrainingImageLabel\Trainner.yml")
 
-        if exists3:
+        # Kiểm tra tồn tại file Trainner.yml
+        exists3 = os.path.isfile("TrainingImageLabel\Trainner.yml")
+        if exists3:  # Nếu có đọc file Trainner.yml
             recognizer.read("TrainingImageLabel\Trainner.yml")
         else:
-            mess.showinfo('Lỗi', 'Vui lòng lưu lại thông tin')
+            mess.showinfo('Lỗi')
             return
+        # Khởi tạo file haarcascade
         haarcascadePath = "haarcascade_frontalface_default.xml"
+        # Load file cascade để phát hiện khuôn mặt
         faceCascade = cv2.CascadeClassifier(haarcascadePath)
 
         i = 0
+        # Tạo đối tượng VideoCapture để chụp video
         cam = cv2.VideoCapture(0)
-        font = cv2.FONT_HERSHEY_SIMPLEX
+        font = cv2.FONT_HERSHEY_SIMPLEX # Viết văn bản lên hình ảnh
         cols_name = ['Id', '', 'Name', '', 'Date', '', 'Time']
+        # Kiểm tra file StudentDetails.csv, nếu có thì đọc file csv
         exists1 = os.path.isfile("StudentDetails\StudentDetails.csv")
         if exists1:
             df = pd.read_csv("StudentDetails\StudentDetails.csv")
         else:
-            cam.release()
+            cam.release() # Giải phóng bộ nhớ
             cv2.destroyAllWindows()
             root.destroy()
         while True:
-            ret, im = cam.read()
-            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+            ret, im = cam.read()  # cam.read() trả về giá trị boolean
+            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) # Chuyển đổi hình ảnh sang màu xám
+            # Tìm kiếm các khuôn mặt trong hình ảnh
             faces = faceCascade.detectMultiScale(gray, 1.2, 5)
+            # Vẽ một hình chữ nhật xung quanh khuôn mặt
             for (x, y, w, h) in faces:
                 cv2.rectangle(im, (x, y), (x + w, y + h), (225, 0, 0), 2)
                 serial, conf = recognizer.predict(gray[y:y + h, x:x + w])
+                # So sánh khuôn mặt với dữ liệu có sẵn
                 if (conf < 50):
                     ts = time.time()
                     date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y')
@@ -164,7 +176,7 @@ class Window1:
         self.lblHeader = tk.Label(self.master, text='Hệ thống điểm danh sinh viên', fg='#4E9F3D',
                                   font=('calibri', 22, ' bold '), width=32, height=1)
         self.lblHeader.place(x=130, y=40)
-        self.imageLogo = tk.PhotoImage(file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/logo.png')
+        self.imageLogo = tk.PhotoImage(file='../FaceDetectionRecognition/image/logo.png')
         self.appLogo = tk.Label(self.master, image=self.imageLogo, width='100', height='100')
         self.appLogo.place(x=70, y=10)
 
@@ -189,7 +201,7 @@ class Window1:
                                 fg="#1E5128", bg="white")
         self.lblLine.place(x=80, y=180)
 
-        self.imageAttendance = tk.PhotoImage(file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/face.png')
+        self.imageAttendance = tk.PhotoImage(file='../FaceDetectionRecognition/image/face.png')
         self.buttonAttendance = TkinterCustomButton(master=self.frame, command=self.TrackImage, bg_color='white',
                                                     fg_color='#D8E9A8', width=100,
                                                     height=80, corner_radius=8, image=self.imageAttendance)
@@ -386,7 +398,7 @@ class Window2:
                                  font=('calibri', 15, ' bold '))
         self.lblStep1.place(x=150, y=220)
         self.imageTakeImage = tk.PhotoImage(
-            file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/photo-capture_1.png')
+            file='../FaceDetectionRecognition/image/photo-capture_1.png')
         self.takeImage = TkinterCustomButton(master=self.frame, command=self.TakeImage, bg_color="white",
                                              fg_color="#D8E9A8",
                                              width=200, height=80, corner_radius=8,
@@ -397,7 +409,7 @@ class Window2:
                                  font=('calibri', 15, ' bold '))
         self.lblStep2.place(x=190, y=380)
         self.imageSave = tk.PhotoImage(
-            file='D:/Study/Đồ án cơ sở/FaceDetectionRecognition/image/save_1.png')
+            file='../FaceDetectionRecognition/image/save_1.png')
         self.saveProfile = TkinterCustomButton(master=self.frame, command=self.psw, bg_color="white",
                                                fg_color="#D8E9A8",
                                                width=200, height=80, corner_radius=8,
