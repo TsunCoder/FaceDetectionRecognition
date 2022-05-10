@@ -7,11 +7,11 @@ from tkinter import filedialog
 import datetime
 import time
 import cv2
-import os
-import numpy as np
-import csv
-from PIL import Image, ImageTk
-import pandas as pd
+import os  # Thao tác tệp và thư mục
+import numpy as np  # Thao tác mảng
+import csv  # Đọc file
+from PIL import Image, ImageTk  # Xử lý hình ảnh
+import pandas as pd  # Xử lý dữ liệu
 
 
 # Attendance window
@@ -75,19 +75,19 @@ class Window1:
         i = 0
         # Tạo đối tượng VideoCapture để chụp video
         cam = cv2.VideoCapture(0)
-        font = cv2.FONT_HERSHEY_SIMPLEX # Viết văn bản lên hình ảnh
+        font = cv2.FONT_HERSHEY_SIMPLEX  # Viết văn bản lên hình ảnh
         cols_name = ['Id', '', 'Name', '', 'Date', '', 'Time']
         # Kiểm tra file StudentDetails.csv, nếu có thì đọc file csv
         exists1 = os.path.isfile("StudentDetails\StudentDetails.csv")
         if exists1:
             df = pd.read_csv("StudentDetails\StudentDetails.csv")
         else:
-            cam.release() # Giải phóng bộ nhớ
+            cam.release()  # Giải phóng bộ nhớ
             cv2.destroyAllWindows()
             root.destroy()
         while True:
             ret, im = cam.read()  # cam.read() trả về giá trị boolean
-            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) # Chuyển đổi hình ảnh sang màu xám
+            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)  # Chuyển đổi hình ảnh sang màu xám
             # Tìm kiếm các khuôn mặt trong hình ảnh
             faces = faceCascade.detectMultiScale(gray, 1.2, 5)
             # Vẽ một hình chữ nhật xung quanh khuôn mặt
